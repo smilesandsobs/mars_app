@@ -19,7 +19,7 @@ def scrape_all():
         "news_paragraph": news_paragraph,
         "featured_image": featured_image(browser),
         "facts": mars_facts(),
-        "hemispheres": mission_to_mars_challenge(),
+        "mars.hemispheres": mission_to_mars_challenge(browser),
         "last_modified": dt.datetime.now()
     
     }
@@ -99,7 +99,7 @@ def mars_facts():
     # Convert dataframe into HTML format, add bootstrap
     return df.to_html(classes="table table-striped")
 
-def mission_to_mars_challenge():
+def mission_to_mars_challenge(browser):
 
     # Initiate headless driver for deployment
     executable_path = {'executable_path': ChromeDriverManager().install()}
@@ -136,8 +136,12 @@ def mission_to_mars_challenge():
         hemisphere_image_urls.append(hemispheres)
                    
         browser.back()
-    
-    return hemisphere_image_urls
+
+    # Use the base url to create an absolute url
+    hem_url = f'https://marshemispheres.com/{hemisphere_image_urls}'
+
+
+    return hem_url
 
 if __name__ == "__main__":
     # If running as script, print scraped data
